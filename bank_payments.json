@@ -1,0 +1,1424 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Сервис по отправке платежей юридическим лицам",
+    "description": "Банковские платежи",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:8080/api/v1/"
+    }
+  ],
+  "paths": {
+    "/physical_persons": {
+      "post": {
+        "summary": "Создание аккаунта для физического лица",
+        "tags": [
+          "physical_persons"
+        ],
+        "operationId": "createPhysicalPerson",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhysicalPerson"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешная регистрация физического лица",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhysicalPersonId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Получение списка аккаунтов физических лиц",
+        "tags": [
+          "physical_persons"
+        ],
+        "operationId": "getPhysicalPerson",
+        "responses": {
+          "200": {
+            "description": "Список верифицированных физических лиц",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhysicalPersonList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/physical_persons/login": {
+      "post": {
+        "summary": "Вход в систему для физического лица",
+        "tags": [
+          "physical_persons"
+        ],
+        "operationId": "loginPhysicalPerson",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PhysicalPersonLoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешный вход в систему физического лица",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhysicalPersonLoginResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/physical_persons/{id}": {
+      "get": {
+        "summary": "Поиск физического лица по id",
+        "tags": [
+          "physical_persons"
+        ],
+        "operationId": "physicalPersonById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Физическое лицо по id найдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhysicalPersonId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удаление физического лица по id",
+        "tags": [
+          "physical_persons"
+        ],
+        "operationId": "deletePhysicalPersonById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешное удаление физического лица",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PhysicalPersonId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/juridical_persons": {
+      "post": {
+        "summary": "Создание аккаунта для юридического лица",
+        "tags": [
+          "juridical_persons"
+        ],
+        "operationId": "createJuridicalPerson",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JuridicalPerson"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешная регистрация юридического лица",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JuridicalPersonId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Получение списка аккаунтов юридических лиц",
+        "tags": [
+          "juridical_persons"
+        ],
+        "operationId": "getJuridicalPerson",
+        "responses": {
+          "200": {
+            "description": "Список верифицированных юридических лиц",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JuridicalPersonList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/juridical_persons/login": {
+      "post": {
+        "summary": "Вход в систему для юридического лица",
+        "tags": [
+          "juridical_persons"
+        ],
+        "operationId": "loginJuridicalPerson",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/JuridicalPersonLoginRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешный вход в систему юридического лица",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JuridicalPersonLoginResponse"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/juridical_persons/{id}": {
+      "get": {
+        "summary": "Поиск юридического лица по id",
+        "tags": [
+          "juridical_persons"
+        ],
+        "operationId": "juridicalPersonById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Юридического лицо по id найдено",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JuridicalPersonId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удаление юридического лица по id",
+        "tags": [
+          "juridical_persons"
+        ],
+        "operationId": "deleteJuridicalPersonById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешное удаление юридического лица",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/JuridicalPersonId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cards": {
+      "post": {
+        "summary": "Создание карты",
+        "tags": [
+          "cards"
+        ],
+        "operationId": "createCard",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Card"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешное создание карты",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Получение списка карт",
+        "tags": [
+          "cards"
+        ],
+        "operationId": "getCard",
+        "responses": {
+          "200": {
+            "description": "Список карт",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/cards/{id}": {
+      "get": {
+        "summary": "Поиск карты по id",
+        "tags": [
+          "cards"
+        ],
+        "operationId": "cardById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Карта по id найдена",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удаление карты по id",
+        "tags": [
+          "cards"
+        ],
+        "operationId": "deleteCardById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешное удаление карты",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transations": {
+      "post": {
+        "summary": "Создание транзакции",
+        "tags": [
+          "transations"
+        ],
+        "operationId": "createTransation",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Transation"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешное создание транзакции",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransationId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Получение списка транзакций",
+        "tags": [
+          "transations"
+        ],
+        "operationId": "getTransation",
+        "responses": {
+          "200": {
+            "description": "Список транзакций",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransationList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/transations/{id}": {
+      "get": {
+        "summary": "Поиск транзакций по id",
+        "tags": [
+          "transations"
+        ],
+        "operationId": "transationById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Транзакция по id не найдена",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransationId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удаление транзакции по id",
+        "tags": [
+          "transations"
+        ],
+        "operationId": "deleteTransationById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешное удаление транзакции",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TransationId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/suspiciousTransactions": {
+      "post": {
+        "summary": "Создание подозрительной транзакции",
+        "tags": [
+          "suspiciousTransactions"
+        ],
+        "operationId": "createSuspiciousTransaction",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SuspiciousTransaction"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешное создание подозрительной транзакции",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuspiciousTransactionId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Получение списка подозрительных транзакций",
+        "tags": [
+          "suspiciousTransactions"
+        ],
+        "operationId": "getSuspiciousTransaction",
+        "responses": {
+          "200": {
+            "description": "Список подозрительных транзакций",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuspiciousTransactionList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/suspiciousTransactions/{id}": {
+      "get": {
+        "summary": "Поиск подозрительных транзакций по id",
+        "tags": [
+          "suspiciousTransactions"
+        ],
+        "operationId": "suspiciousTransactionById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Подозрительная транзакция по id найдена",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuspiciousTransactionId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удаление карты по id",
+        "tags": [
+          "suspiciousTransactions"
+        ],
+        "operationId": "deleteSuspiciousTransactionById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешное удаление подозрительной транзакции",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SuspiciousTransactionId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/blacklistJuridicalPersons": {
+      "post": {
+        "summary": "Создание черного списка юр лиц",
+        "tags": [
+          "blacklistJuridicalPersons"
+        ],
+        "operationId": "createBlacklistJuridicalPerson",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/BlacklistJuridicalPerson"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Успешное создание черного списка юр лиц",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlacklistJuridicalPersonId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "get": {
+        "summary": "Получение списка черного списка юр лиц",
+        "tags": [
+          "blacklistJuridicalPersons"
+        ],
+        "operationId": "getBlacklistJuridicalPerson",
+        "responses": {
+          "200": {
+            "description": "Список карт",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlacklistJuridicalPersonList"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/blacklistJuridicalPersons/{id}": {
+      "get": {
+        "summary": "Поиск черного списка юр лиц по id",
+        "tags": [
+          "blacklistJuridicalPersons"
+        ],
+        "operationId": "blacklistJuridicalPersonById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Карта по id найдена",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BlacklistJuridicalPersonId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "summary": "Удаление черного списка юр лиц по id",
+        "tags": [
+          "blacklistJuridicalPersons"
+        ],
+        "operationId": "deleteBlacklistJuridicalPersonById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "uuid"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Успешное удаление черного списка юр лиц",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CardId"
+                }
+              }
+            }
+          },
+          "default": {
+            "description": "Остальные коды",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Error"
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "properties": {
+          "code": {
+            "type": "integer"
+          },
+          "message": {
+            "type": "string"
+          }
+        }
+      },
+      "PhysicalPerson": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "adas5-fghjd-45ghb-kdjdc-dcskl"
+          },
+          "first_name": {
+            "type": "string",
+            "example": "Marusina"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Darya"
+          },
+          "patronymic": {
+            "type": "string",
+            "example": "Andreevna"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "mdar@gmail.com"
+          },
+          "date_of_birth": {
+            "type": "string",
+            "format": "date"
+          },
+          "gender": {
+            "type": "string",
+            "enum": [
+              "man",
+              "women"
+            ]
+          },
+          "inn": {
+            "type": "integer"
+          },
+          "telephone": {
+            "type": "integer",
+            "example": 9992341212
+          },
+          "person_status": {
+            "type": "string",
+            "enum": [
+              "verified",
+              "check",
+              "blocked"
+            ]
+          }
+        }
+      },
+      "PhysicalPersonId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "adas5-fghjd-45ghb-kdjdc-dcskl"
+          }
+        }
+      },
+      "PhysicalPersonList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/PhysicalPerson"
+        }
+      },
+      "PhysicalPersonLoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "PhysicalPersonLoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "format": "token",
+            "example": "7u13rhn8xm2OHmNk"
+          }
+        }
+      },
+      "JuridicalPerson": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "adas5-fghjd-45ghb-kdjdc-dcskl"
+          },
+          "company_name": {
+            "type": "string"
+          },
+          "first_name": {
+            "type": "string",
+            "example": "Marusina"
+          },
+          "last_name": {
+            "type": "string",
+            "example": "Darya"
+          },
+          "patronymic": {
+            "type": "string",
+            "example": "Andreevna"
+          },
+          "email": {
+            "type": "string",
+            "format": "email",
+            "example": "mdar@gmail.com"
+          },
+          "inn": {
+            "type": "integer"
+          },
+          "telephone": {
+            "type": "integer",
+            "example": 9992341212
+          },
+          "person_status": {
+            "type": "string",
+            "enum": [
+              "verified",
+              "check",
+              "blocked"
+            ]
+          }
+        }
+      },
+      "JuridicalPersonId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "adas5-fghjd-45ghb-kdjdc-dcskl"
+          }
+        }
+      },
+      "JuridicalPersonList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/JuridicalPerson"
+        }
+      },
+      "JuridicalPersonLoginRequest": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          }
+        }
+      },
+      "JuridicalPersonLoginResponse": {
+        "type": "object",
+        "properties": {
+          "token": {
+            "type": "string",
+            "format": "token",
+            "example": "7u13rhn8xm2OHmNk"
+          }
+        }
+      },
+      "Card": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "adas5-fghjd-45ghb-kdjdc-dcskl"
+          },
+          "card_number": {
+            "type": "integer"
+          },
+          "validity_period": {
+            "type": "integer"
+          },
+          "card_status": {
+            "type": "string",
+            "enum": [
+              "verified",
+              "check",
+              "blocked"
+            ]
+          },
+          "physical_person_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "juridical_person_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "bank_emitter_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "CardId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "adas5-fghjd-45ghb-kdjdc-dcskl"
+          }
+        }
+      },
+      "CardList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Card"
+        }
+      },
+      "Transation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "adas5-fghjd-45ghb-kdjdc-dcskl"
+          },
+          "type_of_transation": {
+            "type": "string"
+          },
+          "date_time": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "requested_amount": {
+            "type": "number",
+            "format": "double",
+            "minimum": 0,
+            "multipleOf": 0.01
+          },
+          "authorized_amount": {
+            "type": "number",
+            "format": "double",
+            "minimum": 0,
+            "multipleOf": 0.01
+          },
+          "converted_amount": {
+            "type": "number",
+            "format": "double",
+            "minimum": 0,
+            "multipleOf": 0.01
+          },
+          "currency": {
+            "type": "string"
+          },
+          "account_balance": {
+            "type": "number",
+            "format": "double",
+            "minimum": 0,
+            "multipleOf": 0.01
+          },
+          "cancellation_flag": {
+            "type": "boolean",
+            "default": false
+          },
+          "ip_address": {
+            "type": "string",
+            "format": "ipv4"
+          },
+          "coordinates": {
+            "type": "string",
+            "format": "jsonb"
+          },
+          "country": {
+            "type": "string"
+          },
+          "city": {
+            "type": "string"
+          },
+          "card_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "transaction_status": {
+            "type": "string",
+            "enum": [
+              "waiting_for_authorization",
+              "successful_authorization",
+              "rejected",
+              "in_processing",
+              "completed",
+              "refund",
+              "waiting_for_confirmation"
+            ]
+          }
+        }
+      },
+      "TransationId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "adas5-fghjd-45ghb-kdjdc-dcskl"
+          }
+        }
+      },
+      "TransationList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/Transation"
+        }
+      },
+      "SuspiciousTransaction": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "adas5-fghjd-45ghb-kdjdc-dcskl"
+          },
+          "transaction_id": {
+            "type": "string",
+            "format": "uui"
+          },
+          "suspicious_activity": {
+            "type": "string"
+          },
+          "suspicious_transaction_priority": {
+            "type": "string",
+            "enum": [
+              "high",
+              "average",
+              "low"
+            ]
+          },
+          "juridical_person_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "SuspiciousTransactionId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "adas5-fghjd-45ghb-kdjdc-dcskl"
+          }
+        }
+      },
+      "SuspiciousTransactionList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/SuspiciousTransaction"
+        }
+      },
+      "BlacklistJuridicalPerson": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "adas5-fghjd-45ghb-kdjdc-dcskl"
+          },
+          "type_of_fraud": {
+            "type": "string"
+          },
+          "date_of_addition": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "juridical_person_id": {
+            "type": "string",
+            "format": "uuid"
+          },
+          "suspicious_transactions_id": {
+            "type": "string",
+            "format": "uuid"
+          }
+        }
+      },
+      "BlacklistJuridicalPersonId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "uuid",
+            "example": "adas5-fghjd-45ghb-kdjdc-dcskl"
+          }
+        }
+      },
+      "BlacklistJuridicalPersonList": {
+        "type": "array",
+        "items": {
+          "$ref": "#/components/schemas/BlacklistJuridicalPerson"
+        }
+      }
+    }
+  }
+}

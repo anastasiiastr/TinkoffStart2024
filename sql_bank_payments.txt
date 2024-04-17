@@ -1,0 +1,235 @@
+BEGIN;
+
+
+CREATE TABLE IF NOT EXISTS bank_payments.account_juridical_person
+(
+    account_juridical_person_id uuid NOT NULL,
+    amount bigint,
+    juridical_person_id uuid NOT NULL,
+    account_status bank_payments.account_status NOT NULL,
+    CONSTRAINT account_pkey PRIMARY KEY (account_juridical_person_id)
+);
+
+CREATE TABLE IF NOT EXISTS bank_payments.account_physical_person
+(
+    account_physical_person_id uuid NOT NULL,
+    amount bigint,
+    physical_person_id uuid NOT NULL,
+    account_status bank_payments.account_status,
+    CONSTRAINT account_physical_person_pkey PRIMARY KEY (account_physical_person_id)
+);
+
+CREATE TABLE IF NOT EXISTS bank_payments.suspicious_transaction
+(
+    suspicious_transaction_id uuid NOT NULL,
+    transaction_id uuid NOT NULL,
+    bank_acquirer_id uuid NOT NULL,
+    suspicious_activity character varying(150),
+    suspicious_transaction_priority bank_payments.suspicious_transaction_priority NOT NULL,
+    juridical_person_id uuid NOT NULL,
+    CONSTRAINT suspicious_transaction_pkey PRIMARY KEY (suspicious_transaction_id)
+);
+
+CREATE TABLE IF NOT EXISTS bank_payments.juridical_person
+(
+    juridical_person_id uuid NOT NULL,
+    company_name character varying(150),
+    first_name character varying(50) NOT NULL,
+    last_name character varying(50),
+    patronymic character varying(50),
+    email character varying(150),
+    inn integer NOT NULL,
+    telephone integer,
+    person_status bank_payments.person_status NOT NULL,
+    CONSTRAINT juridical_person_pkey PRIMARY KEY (juridical_person_id)
+);
+
+CREATE TABLE IF NOT EXISTS bank_payments.physical_person
+(
+    physical_person_id uuid NOT NULL,
+    first_name character varying(50) NOT NULL,
+    last_name character varying(50),
+    patronymic character varying(50),
+    email character varying(150),
+    date_of_birth date NOT NULL,
+    gender bank_payments.gender NOT NULL,
+    inn integer,
+    telephone integer,
+    person_status bank_payments.person_status NOT NULL,
+    CONSTRAINT client_pkey PRIMARY KEY (physical_person_id)
+);
+
+CREATE TABLE IF NOT EXISTS bank_payments.bank_acquirer
+(
+    bank_acquirer_id uuid NOT NULL,
+    title character varying(150) NOT NULL,
+    country character varying(50) NOT NULL,
+    city character varying(50) NOT NULL,
+    address character varying(255) NOT NULL,
+    email character varying(150),
+    telephone integer,
+    CONSTRAINT bank_acquirer_pkey PRIMARY KEY (bank_acquirer_id)
+);
+
+CREATE TABLE IF NOT EXISTS bank_payments.passport_data
+(
+    passport_id uuid NOT NULL,
+    series_and_number integer NOT NULL,
+    date_of_issue date NOT NULL,
+    issued_by character varying(255) NOT NULL,
+    department_code character varying(7) NOT NULL,
+    physical_person_id uuid NOT NULL,
+    CONSTRAINT passport_data_pkey PRIMARY KEY (passport_id)
+);
+
+CREATE TABLE IF NOT EXISTS bank_payments.transaction
+(
+    transaction_id uuid NOT NULL,
+    type_of_transation character varying(50) NOT NULL,
+    date_time timestamp with time zone NOT NULL,
+    requested_amount money,
+    authorized_amount money,
+    converted_amount money,
+    currency character varying(50) NOT NULL,
+    account_balance money,
+    cancellation_flag boolean DEFAULT false,
+    ip_address character varying(150),
+    coordinates jsonb,
+    country character varying(50),
+    city character varying(50),
+    card_id uuid NOT NULL,
+    code_authorization character varying(150) NOT NULL,
+    transaction_status bank_payments.transaction_status NOT NULL,
+    CONSTRAINT transaction_pkey PRIMARY KEY (transaction_id)
+);
+
+CREATE TABLE IF NOT EXISTS bank_payments.blacklist_juridical_person
+(
+    blacklist_juridical_person_id uuid NOT NULL,
+    type_of_fraud character varying(150),
+    date_of_addition date NOT NULL,
+    suspicious_transactions_id uuid NOT NULL,
+    juridical_person_id uuid NOT NULL,
+    CONSTRAINT blacklist_person_pkey PRIMARY KEY (blacklist_juridical_person_id)
+);
+
+CREATE TABLE IF NOT EXISTS bank_payments.bank_emitter
+(
+    bank_emitter_id uuid NOT NULL,
+    title character varying(150) NOT NULL,
+    country character varying(50) NOT NULL,
+    city character varying(50) NOT NULL,
+    address character varying(255) NOT NULL,
+    email character varying(150),
+    telephone integer,
+    CONSTRAINT bank_emitter_pkey PRIMARY KEY (bank_emitter_id)
+);
+
+CREATE TABLE IF NOT EXISTS bank_payments.card
+(
+    card_id uuid NOT NULL,
+    card_number integer NOT NULL,
+    validity_period smallint NOT NULL,
+    card_status bank_payments.card_status NOT NULL,
+    physical_person_id uuid,
+    juridical_person_id uuid,
+    bank_emitter_id uuid,
+    CONSTRAINT card_pkey PRIMARY KEY (card_id)
+);
+
+ALTER TABLE IF EXISTS bank_payments.account_juridical_person
+    ADD FOREIGN KEY (juridical_person_id)
+    REFERENCES bank_payments.juridical_person (juridical_person_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS bank_payments.account_physical_person
+    ADD FOREIGN KEY (physical_person_id)
+    REFERENCES bank_payments.physical_person (physical_person_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS bank_payments.suspicious_transaction
+    ADD FOREIGN KEY (juridical_person_id)
+    REFERENCES bank_payments.juridical_person (juridical_person_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS bank_payments.suspicious_transaction
+    ADD FOREIGN KEY (bank_acquirer_id)
+    REFERENCES bank_payments.bank_acquirer (bank_acquirer_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS bank_payments.suspicious_transaction
+    ADD FOREIGN KEY (transaction_id)
+    REFERENCES bank_payments.transaction (transaction_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS bank_payments.passport_data
+    ADD FOREIGN KEY (physical_person_id)
+    REFERENCES bank_payments.physical_person (physical_person_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS bank_payments.transaction
+    ADD FOREIGN KEY (card_id)
+    REFERENCES bank_payments.card (card_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS bank_payments.blacklist_juridical_person
+    ADD FOREIGN KEY (suspicious_transactions_id)
+    REFERENCES bank_payments.suspicious_transaction (suspicious_transaction_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS bank_payments.blacklist_juridical_person
+    ADD FOREIGN KEY (juridical_person_id)
+    REFERENCES bank_payments.juridical_person (juridical_person_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS bank_payments.card
+    ADD FOREIGN KEY (bank_emitter_id)
+    REFERENCES bank_payments.bank_emitter (bank_emitter_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS bank_payments.card
+    ADD FOREIGN KEY (juridical_person_id)
+    REFERENCES bank_payments.juridical_person (juridical_person_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+
+ALTER TABLE IF EXISTS bank_payments.card
+    ADD FOREIGN KEY (physical_person_id)
+    REFERENCES bank_payments.physical_person (physical_person_id) MATCH SIMPLE
+    ON UPDATE NO ACTION
+    ON DELETE NO ACTION
+    NOT VALID;
+
+END;
